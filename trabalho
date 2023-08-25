@@ -1,0 +1,178 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+//uma struct pra TUDO (em matriz)
+
+typedef struct _autor{
+    char nome [50];
+    char nacionalidade[50];
+}Autor;
+
+typedef struct _livro{
+    char titulo [50];
+    char genero [50];
+    int ano;
+}Livro;
+
+typedef struct _personagens{
+    char nome [40];
+}Personagem;
+
+Autor cadastrarAutor (){
+    Autor novoAutor;
+    printf ("Digite o nome do autor: ");
+    scanf (" %[^\n]s", novoAutor.nome);
+    printf ("Digite a nacionalidade do autor: ");
+    scanf (" %[^\n]s", novoAutor.nacionalidade);
+    printf ("\n");
+    return novoAutor;
+}
+
+void listarAutores(Autor autores[], int numAutores){
+    int i;
+    for (i=0; i< numAutores; i++){
+        printf ("%d - %s\n", i+1, autores[i].nome);
+    }
+    printf("\n");
+}
+
+void editarAutor(Autor autores[], int numAutores){
+    char nomeAutor[50];
+    int i, opcao;
+
+    printf("Digite o nome do autor que deseja editar: ");
+    scanf(" %[^\n]s", nomeAutor);
+
+    for (i=0; i<numAutores; i++){
+        if (strcmp(nomeAutor, autores[i].nome)==0){
+            printf ("Digite:\n");
+            printf (" 1 para editar o nome\n");
+            printf (" 2 para editar a nacionalidade\n");
+            scanf("%d", &opcao);
+            switch (opcao){
+                case 1:
+                    printf("Edite nome do autor: ");
+                    scanf (" %[^\n]s",autores[i].nome);
+                    break;
+                case 2:
+                    printf("Edite a nacionalidade do autor: ");
+                    scanf (" %[^\n]s",autores[i].nacionalidade);
+                    break;
+                default:
+                    printf("Opção invalida!\n\n");
+                    return;
+            }
+            printf("Edição realizada com sucesso!\n\n");
+            return;
+        }
+    }
+    printf("Autor não encontrado!\n\n");
+}
+
+void removerAutor(Autor autores[], int numAutores){
+    char nomeAutor[50];
+    int i, encontrei = 0;
+    printf("Digite o nome do autor para remover: ");
+    scanf (" %[^\n]s", nomeAutor);
+    for (i=0; i< numAutores; i++){
+        if (strcmp(nomeAutor, autores [i].nome)==0){
+            encontrei = 1;
+        }
+        if(encontrei){
+            if(i<numAutores-1)
+                autores[i] = autores[i+1];
+        }
+    }
+    if (encontrei){
+        printf("Operação realizada com sucesso.\n\n");
+    }else{
+        printf ("Autor não encontrado.\n\n");
+    }
+}
+
+Personagem cadastrarPersonagem(){
+	Personagem novoPersonagem;
+	printf("Digite o nome do personagem: ");
+    scanf(" %[^\n]s",novoPersonagem.nome);
+	return novoPersonagem;
+}
+
+                                void editarPersonagem(){
+	//TODO
+}
+
+                                void removerPersonagem(){
+	//TODO
+}
+
+void listarPersonagens(Personagem personagens[], int numPersonagens){
+	int i;
+	for(i=0; i<numPersonagens; i++){
+		printf("%d - %s\n",i+1, personagens[i].nome);
+	}
+	printf("\n");
+}
+ 
+//void livros, editar e remover
+
+Livro cadastrarLivro(){
+    Livro novoLivro;
+    printf ("Digite o título do livro:");
+    scanf (" %[^\n]s",novoLivro.titulo);
+    printf ("Digite o gênero do livro:");
+    scanf (" %[^\n]s",novoLivro.genero);
+    printf ("Digite o ano em que o livro foi lançado:");
+    scanf ("%d",novoLivro.ano);
+    return novoLivro;
+}
+  
+void listarLivros(Livro livros [], int numLivros){
+    int i;
+    for (i=0; i<numLivros; i++){
+        printf("%d = %s\n", i+1, livros[i].titulo);
+    }
+    printf("\n");
+}
+
+void editarLivro(Livro livros[], int numLivros);
+    char tituloLivro[50];
+    int i, opcao;
+
+    printf("Digite o título do livro para editar: ");
+    scanf(" %[^\n]s", tituloLivro);
+
+    for (i=0; i<numLivros; i++) {
+        if(strcmp(tituloLivro, livros[i].titulo)==0){
+            printf("Digite:\n");
+            printf("  1 para editar o titulo\n");
+			printf("  2 para editar o genero\n");
+			printf("  3 para editar o ano de lancamento do livro\n");
+			scanf(" %d",&opcao);
+        }
+    }
+
+
+    int main (){
+        Autor autores[100];
+        Livro livros [100];
+        Personagem personagens[100];
+        int numAutores = 0;
+        int numLivros = 0;
+        int numPersonagens = 0;
+        int opcao;
+
+        while (1){
+            printf ("Digite:\n");
+            printf ("1 para cadastrar um novo autor\n");
+
+            switch (opcao) {
+                case 1:
+                    Autor [numAutores] = cadastrarAutor();
+                    numAutores++;
+                    break;
+            }
+        }
+
+    }
+}
