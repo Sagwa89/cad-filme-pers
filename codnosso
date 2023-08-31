@@ -1,3 +1,5 @@
+\\código funciona, mas falta: exit menu e arrumar arrays
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,7 +15,7 @@ typedef struct _serie{
 	char genero[15];
 	int ano;
 	Personagem personagens[100];
-    int numPersonagens;
+    
 }Serie;
 
 
@@ -21,12 +23,13 @@ Serie cadastrarSerie(){
 	Serie novaSerie;
 	printf("Digite o titulo da serie: ");
 	scanf(" %[^\n]s",novaSerie.titulo);
-	printf("Digite o genero do filme: ");
+	printf("Digite o genero da serie: ");
 	scanf(" %[^\n]s",novaSerie.genero);
-	printf("Digite o ano de lancamento do filme: ");
+	printf("Digite o ano de lancamento da serie: ");
 	scanf(" %d",&novaSerie.ano);
 	printf("\n");
-    novaSerie.numPersonagens = 0;
+	printf("Série cadastrada com sucesso =D");
+    
 	return novaSerie;
 }
 
@@ -73,7 +76,7 @@ void editarSerie(Serie series[], int numSeries){
 			return;
 		}
 	}
-	printf("Serie não encontrado!\n\n");
+	printf("Serie nao encontrada!\n\n");
 }
 
 void removerSerie(Serie series[], int numSeries){
@@ -182,6 +185,9 @@ int main(){
 	Serie series[100];
 	int numSeries = 0;
 	int opcao;
+    int numPersonagens = 0;
+    Personagem personagens [60];
+    
 	while(1){
 		printf("Digite:\n");
 		printf("  1 para cadastrar uma nova Serie\n");
@@ -227,4 +233,4 @@ int main(){
 		}
 	}
 	return 0;
-}
+} 
