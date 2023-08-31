@@ -1,0 +1,319 @@
+#include <stdio.h>
+    #include <stdlib.h>
+    #include <string.h>
+
+    typedef struct _personagem {
+        char nome[40];
+        char nomeAtor[40];
+        int idade;
+    } Personagem;
+
+    typedef struct _serie {
+        char titulo[40];
+        char genero[15];
+        int ano;
+        int numPersonagens;
+        Personagem personagens[50];
+    } Serie;
+
+    Serie cadastrarSerie() {
+        Serie novaSerie;
+        printf("Digite o titulo da serie: ");
+        scanf(" %[^\n]s", novaSerie.titulo);
+        printf("Digite o genero da serie: ");
+        scanf(" %[^\n]s", novaSerie.genero);
+        printf("Digite o ano de lancamento da serie: ");
+        scanf(" %d", &novaSerie.ano);
+        printf("\n");
+        novaSerie.numPersonagens = 0;
+        printf("Serie cadastrada com sucesso =D\n");
+
+        return novaSerie;
+    }
+
+    void listarSeries(Serie series[], int numSeries) {
+        if (numSeries == 0) {
+            printf("Nenhuma serie cadastrada\n");
+            return;
+        }
+
+        int i;
+        for (i = 0; i < numSeries; i++) {
+            printf("%d - %s\n", i + 1, series[i].titulo);
+        }
+        printf("\n");
+    }
+
+    void editarSerie(Serie series[], int numSeries){
+        if (numSeries == 0){
+            printf("Nao existem series cadastradas.\n");
+            printf ("Nao eh possivel realizar a operacao.\n");
+            return;
+        }
+        char tituloSerie[40];
+        int i, opcao;
+
+        printf("Digite o titulo da serie para editar: ");
+        scanf(" %[^\n]s",tituloSerie);
+
+        for(i=0; i<numSeries; i++){
+            if(strcmp(tituloSerie, series[i].titulo)==0){
+                printf("Digite:\n");
+                printf("  1 para editar o titulo\n");
+                printf("  2 para editar o genero\n");
+                printf("  3 para editar o ano de lancamento da serie\n");
+                scanf(" %d",&opcao);
+                switch(opcao){
+                    case 1:
+                        printf("Digite o novo titulo da serie: ");
+                        scanf(" %[^\n]s",series[i].titulo);
+                        break;
+                    case 2:
+                        printf("Digite o novo genero da serie: ");
+                        scanf(" %[^\n]s",series[i].genero);
+                        break;
+                    case 3:
+                        printf("Digite o novo ano de lancamento da serie: ");
+                        scanf(" %d",&series[i].ano);
+                        break;
+                    default:
+                        printf("Opção invalida!\n\n");
+                        return;
+                }
+                printf("Operação realizada com sucesso!\n\n");
+                return;
+            }
+        }
+        printf("Serie nao encontrada!\n\n");
+    }
+
+    void removerSerie(Serie series[], int numSeries){
+        if (numSeries == 0) {
+            printf("Nao existem series cadastradas.\n");
+            printf("Nao eh possivel realizar a operacao!\n");
+        }
+
+        char tituloSerie[40];
+        int i, encontrei = 0;
+        printf("Digite o titulo da serie para remover: ");
+        scanf(" %[^\n]s",tituloSerie);
+        for(i=0; i< numSeries; i++){
+            if(strcmp(tituloSerie, series[i].titulo)==0){
+                encontrei = 1;
+            }
+            if(encontrei){
+                if(i<numSeries-1)
+                    series[i] = series[i+1];
+            }
+        }
+        if(encontrei){
+            printf("Operação realizada com sucesso!\n\n");
+        }else{
+            printf("Serie não encontrado!\n\n;");
+        }
+    }
+
+    Personagem cadastrarPersonagem(){
+        Personagem novoPersonagem;
+
+        printf("Digite o nome do personagem: ");
+        scanf(" %[^\n]s",novoPersonagem.nome);
+        printf("Digite o nome do ator que interpreta o personagem: ");
+        scanf(" %[^\n]s",novoPersonagem.nomeAtor);
+        printf("Digite a idade do personagem: ");
+        scanf(" %d",&novoPersonagem.idade);
+        printf("\n");
+
+        return novoPersonagem;
+    }
+
+
+    void listarPersonagens(Personagem personagens[], int numPersonagens){
+        if (numPersonagens ==0) {
+            printf("Nenhum personagem cadastrado\n");
+            return;
+        }
+        
+        int i;
+        for(i=0; i<numPersonagens; i++){
+            printf("%d - %s\n",i+1, personagens[i].nome);
+        }
+        printf("\n");
+    }
+
+    void editarPersonagem(Personagem personagens[], int numPersonagens){
+        if (numPersonagens == 0) {
+            printf("Nao existem personagens cadastrados.\n");
+            printf("Nao eh possivel realizar a operacao!\n");
+        }
+        char nomePersonagem[40];
+        int i,opcao;
+
+        printf("Digite o personagem que deseja editar: ");
+        scanf(" %[^\n]s",nomePersonagem);
+
+        for(i=0; i<numPersonagens; i++){
+            if(strcmp(nomePersonagem, personagens[i].nome)==0){
+                printf("Digite:\n");
+                printf("  1 para editar o nome\n");
+                printf("  2 para editar o nome do ator\n");
+                printf("  3 para editar a idade\n");
+                scanf(" %d", &opcao);
+                switch(opcao){
+                    case 1:
+                    printf("Digite o novo nome do personagem: ");
+                    scanf(" %[^\n]s",personagens[i].nome);
+                    break;
+                    case 2:
+                    printf("Digite o novo nome do ator: ");
+                    scanf(" %[^\n]s",personagens[i].nomeAtor);
+                    break;
+                    case 3:
+                    printf("Digite a nova idade: ");
+                    scanf("%d",&personagens[i].idade);
+                    break;
+                    default:
+                    printf("Opção invalida!\n\n");
+                    return;
+                }
+                printf("Opção realizada com sucesso!\n\n");
+                break;
+            }
+        }
+    }
+
+    void removerPersonagem(Personagem personagens[], int numPersonagens){
+        if (numPersonagens == 0) {
+            printf ("Nao existem personagens cadastrados.\n");
+            printf("Nao eh possivel realizar a operacao!");
+        }
+        char nomePersonagem[40];
+        int i, encontrei = 0;
+
+        printf("Digite o nome do personagem para remover: ");
+        scanf("  %[^\n]s",nomePersonagem);
+        for(i=0; i< numPersonagens; i++){
+            if(strcmp(nomePersonagem, personagens[i].nome)==0){
+                encontrei = 1;
+            }
+            if(encontrei){
+                if(i<numPersonagens-1)
+                personagens[i] = personagens[i+1];
+            }
+        }
+        if(encontrei){
+            printf("Operação realizada com sucesso!\n\n");
+        }else{
+            printf("Personagem não encontrado!\n\n;");
+        }
+        
+    }
+
+    int main() {
+        Serie series[100];
+        int numSeries = 0;
+        int opcao;
+        int i;
+        char nomeSerie[50];
+        int numPersonagens;
+        while (1) {
+            // Menu e switch cases
+            printf("\nDigite:\n");
+            printf("  1 para cadastrar uma nova Serie\n");
+            printf("  2 para listar as series cadastradas\n");
+            printf("  3 para editar uma serie\n");
+            printf("  4 para remover uma serie\n");
+            printf("  5 para cadastrar um novo personagem\n");
+            printf("  6 para listar os personagens cadastrados\n");
+            printf("  7 para editar personagem cadastrado\n");
+            printf("  8 para remover um personagem\n");
+            printf("  9 para sair do menu\n");
+            scanf(" %d", &opcao);
+
+            switch (opcao) {
+                case 1: 
+                    series[numSeries] = cadastrarSerie();
+                    numSeries++;
+                    break;
+                case 2: 
+                    listarSeries(series, numSeries);
+                    break;
+                case 3:
+                    editarSerie(series, numSeries);
+                    break;
+                case 4:
+                    removerSerie(series, numSeries);
+                    numSeries--;
+                    break;
+                case 5:
+                    if (numSeries == 0) {
+                        printf ("Nao existem series cadastradas.\n");
+                        printf("Nao eh possivel cadastrar personagens!\n");
+                        break;
+                    }
+                    printf ("Digite a serie na qual deseja cadastrar um personagem:\n");
+                    scanf(" %[^\n]s", nomeSerie);
+                    int serieEncontrada = 0;
+                    for (i = 0; i < numSeries; i++){
+                        if (strcmp(nomeSerie, series[i].titulo) == 0) {
+                            series [i].personagens[series[i].numPersonagens] = cadastrarPersonagem();
+                            series[i].numPersonagens++;
+                            break;
+                        }
+                   
+                    break;
+
+                case 6:
+                    if (numSeries == 0) {
+                    printf ("Nao existem series cadastradas.\n");
+                    printf ("Nao eh possivel listar os personagens!\n");
+                    }
+                    printf ("Digite a serie desejada para listar personagens:\n");
+                    scanf(" %[^\n]s", nomeSerie);
+                    for (i = 0; i < numSeries; i++) {
+                        if (strcmp(nomeSerie, series[i].titulo) == 0){
+                            listarPersonagens(series[i].personagens, series[i].numPersonagens);
+                            break;
+                        }
+                    }
+                    break;
+                case 7:
+                    if (numSeries == 0){
+                    printf ("nao existem series cadastradas.\n");
+                    printf ("Nao eh possivel realizar a operacao!\n");
+                    }
+                    printf("Digite o nome da serie desejada para editar o personagem:\n");
+                    scanf(" %[^\n]s", nomeSerie);
+                    for (i = 0; i < numSeries; i++){
+                        if (strcmp(nomeSerie, series[i].titulo) == 0){
+                            editarPersonagem(series[i].personagens, series[i].numPersonagens);
+                            break;
+                        }
+                    }
+                    break;
+                case 8:
+                    if (numSeries == 0) {
+                    printf("Nenhuma serie cadastrada\n");
+                    printf("Nao e possivel remover personagens!\n");
+                    break;
+                    }
+                    printf("Digite a serie para remover o personagem:\n");
+                    scanf(" %[^\n]s", nomeSerie);
+                    for (i = 0; i < numSeries; i++) {
+                        if (strcmp(nomeSerie, series[i].titulo) == 0) {
+                            removerPersonagem(series[i].personagens,  series[i].numPersonagens);
+                            break;
+                        }
+                    }
+                    break;
+                case 9:
+                    printf("Ate a proxima \n");
+                    exit(0);
+                default:
+                    printf("Opção invalida!\n\n");	
+            } 
+            
+        }
+    }
+        return 0;
+    }
