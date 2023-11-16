@@ -1,0 +1,256 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct _filme {
+    char titulo[100];
+    int duracao;
+	int ano;
+} Filme;
+
+typedef struct _lista {
+    char nome[100];
+    int numFilmes;
+    Filme filmes[15];
+} Lista;
+
+Lista *cadastrarLista() {
+    Lista *novaLista = malloc(sizeof(Lista));
+    printf("\nDigite o nome da lista: ");
+    scanf(" %[^\n]s", novaLista->nome);
+    novaLista->numFilmes = 0;
+    printf("\nNova lista cadastrada com sucesso!\n");
+    return novaLista;
+}
+
+Filme cadastrarFilme() {
+    Filme novoFilme;
+    printf("Digite o tÃ­tulo do filme: ");
+    scanf(" %[^\n]s", novoFilme.titulo);
+    printf("Digite a duracao do filme: ");
+    scanf("%d", &novoFilme.duracao);
+	printf ("Digite o ano do filme:");
+	scanf ("%d", &novoFilme.ano);
+	printf ("\n\nNovo filme cadastrado com sucesso!\n");
+    return novoFilme;
+}
+
+void listarFilmes(Filme filmes[], int numFilmes) {
+    int i;
+    for (i = 0; i < numFilmes; i++) {
+        printf("\n\n %d - TÃ­tulo: %s, DuraÃ§Ã£o: %d minutos, %d ano\n\n", i + 1, filmes[i].titulo, filmes[i].duracao, filmes[i].ano);
+    }
+    if (numFilmes == 0) {
+        printf("\nA lista que escolheu nÃ£o tem filmes cadastrados.\n");
+    }
+}
+
+void listarListas(Lista *listas[], int numListas) {
+    int i;
+    for (i = 0; i < numListas; i++) {
+        printf("%d - Lista: %s\n", i + 1, listas[i]->nome);
+    }
+}
+
+void editarListas(Lista *listas[], int numListas) {
+    char editLista[100];
+    int i;
+
+    printf("\nDigite o nome da lista que deseja editar: ");
+    scanf(" %[^\n]s", editLista);
+
+    for (i = 0; i < numListas; i++) {
+        if (strcmp(editLista, listas[i]->nome) == 0) {
+            printf("Digite o novo nome da lista: ");
+            scanf(" %[^\n]s", listas[i]->nome);
+            printf("\nLista alterada com sucesso.\n");
+            return;
+        }
+    }
+    printf("\nLista nÃ£o encontrada!\n");
+}
+
+void removerLista(Lista *listas[], int *numListas) {
+    char nomeLista[100];
+    int i, encontrei = 0;
+    printf("Digite o nome da lista que deseja remover:\n");
+    scanf(" %[^\n]s", nomeLista);
+    for (i = 0; i < *numListas; i++) {
+        if (strcmp(nomeLista, listas[i]->nome) == 0) {
+            encontrei = 1;
+            free(listas[i]);
+        }
+        if (encontrei) {
+            if (i < *numListas - 1) {
+                listas[i] = listas[i + 1];
+            }
+        }
+    }
+    if (encontrei) {
+        (*numListas)--;
+        printf("\nLista removida com sucesso.\n");
+    } else {
+        printf("\nLista nÃ£o encontrada.\n");
+    }
+}
+
+void editarFilme(Filme *filmes, int numFilmes) {
+    char editarFilme[100];
+    int i, opcao;
+
+    printf("\nDigite o nome do filme que deseja editar: ");
+    scanf(" %[^\n]s", editarFilme);
+
+    for (i = 0; i < numFilmes; i++) {
+        if (strcmp(editarFilme, filmes[i].titulo) == 0) {
+            printf("Digite:\n\n");
+            printf("1 para editar o tÃ­tulo do filme\n");
+            printf("2 para editar a duraÃ§Ã£o do filme\n");
+			printf("3 para editar o ano do filme:\n\n");
+            scanf("%d", &opcao);
+            switch (opcao) {
+                case 1:
+                    printf("Digite o novo tÃ­tulo do filme: ");
+                    scanf(" %[^\n]s", filmes[i].titulo);
+                    break;
+                case 2:
+                    printf("Digite a nova duraÃ§Ã£o do filme: ");
+                    scanf("%d", &filmes[i].duracao);
+                    break;
+				case 3:
+					printf ("Digite o novo ano do filme:\n");
+					scanf("%d", &filmes[i].ano);
+                default:
+                    printf("\nOpÃ§Ã£o invÃ¡lida.\n");
+                    return;
+            }
+            printf("\nEdiÃ§Ã£o concluÃ­da.\n");
+            return;
+        }
+    }
+    printf("\nFilme nÃ£o encontrado!\n");
+}
+
+void removerFilme(Filme *filmes, int *numFilmes) {
+    char nomeFilme[100];
+    int i, encontrei = 0;
+    printf("\nDigite o nome do filme que deseja remover: ");
+    scanf(" %[^\n]s", nomeFilme);
+    for (i = 0; i < *numFilmes; i++) {
+        if (strcmp(nomeFilme, filmes[i].titulo) == 0) {
+            encontrei = 1;
+        }
+        if (encontrei) {
+            if (i < *numFilmes - 1) {
+                filmes[i] = filmes[i + 1];
+            }
+        }
+    }
+    if (encontrei) {
+        (*numFilmes)--;
+        printf("\nOperaÃ§Ã£o concluÃ­da!\n");
+    } else {
+        printf("\nFilme nÃ£o encontrado.\n");
+    }
+}
+
+void organizarLista(Lista *lista) {
+    int opcao;
+
+    do {
+        printf("Digite:\n\n");
+        printf("1 para adicionar um filme\n");
+        printf("2 para listar filmes\n");
+        printf("3 para editar um filme\n");
+        printf("4 para remover um filme\n");
+        printf("5 para voltar ao menu principal\n\n");
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1:
+                if (lista->numFilmes < 15) {
+                    lista->filmes[lista->numFilmes] = cadastrarFilme();
+                    lista->numFilmes++;
+                } else {
+                    printf("\nEsta lista atingiu sua capacidade mÃ¡xima de filmes.\n");
+                }
+                break;
+            case 2:
+                listarFilmes(lista->filmes, lista->numFilmes);
+                break;
+            case 3:
+                editarFilme(lista->filmes, lista->numFilmes);
+                break;
+            case 4:
+                removerFilme(lista->filmes, &(lista->numFilmes));
+                break;
+            case 5:
+                printf("\nRetornando ao menu principal..\n");
+                break;
+            default:
+                printf("\nOpÃ§Ã£o invÃ¡lida. Tente novamente!\n");
+        }
+    } while (opcao != 5);
+}
+
+int main() {
+    Lista *listas[20];
+    int numListas = 0;
+    int opcao;
+
+    while (1) {
+        printf("\nDigite:\n\n");
+        printf("1 para cadastrar uma nova lista\n");
+        printf("2 para listar as listas cadastradas\n");
+        printf("3 para editar uma lista\n");
+        printf("4 para remover uma lista\n");
+        printf("5 para organizar uma lista\n");
+        printf("6 para sair do programa\n\n");
+
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1:
+                listas[numListas] = cadastrarLista();
+                numListas++;
+                break;
+            case 2:
+                listarListas(listas, numListas);
+                break;
+            case 3:
+                editarListas(listas, numListas);
+                break;
+            case 4:
+                removerLista(listas, &numListas);
+                break;
+            case 5: {
+                if (numListas > 0) {
+                    printf("\nListas cadastradas:\n\n");
+                    listarListas(listas, numListas);
+
+                    int escolha;
+                    printf("\nDigite o nÃºmero da lista em que deseja cadastrar seu filme:\n\n");
+                    scanf("%d", &escolha);
+                    escolha--;
+
+                    if (escolha >= 0 && escolha < numListas) {
+                        organizarLista(listas[escolha]);
+                    } else {
+                        printf("\nOpÃ§Ã£o invÃ¡lida.\n");
+                    }
+                } else {
+                    printf("\nNÃ£o hÃ¡ listas cadastradas.\n");
+                }
+                break;
+            }
+            case 6:
+                printf("\nAtÃ© a prÃ³xima!\n");
+                exit(0);
+                break;
+            default:
+                printf("\nOpÃ§Ã£o invÃ¡lida. Tente novamente!\n");
+        }
+    }
+
+    return 0;
+}
